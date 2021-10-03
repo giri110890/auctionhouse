@@ -64,9 +64,6 @@ const app= () => (
         <Home exact path="/">
           <Redirect to="/home" />
         </Home>
-        <Home1 path="/home1" />
-        <Home2 path="/home2" />
-        <Home3 path="/home3" />
         <Explore path="/explore" />
         <Colection path="/colection" />
         <ItemDetail path="/ItemDetail" />
