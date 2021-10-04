@@ -66,7 +66,7 @@ render() {
             <div className='container'>
               <div className='row m-10-hor'>
                 <div className='col-12'>
-                  <h1 className='text-center'>Create</h1>
+                  <h1 className='text-center'>MINT NFT</h1>
                 </div>
               </div>
             </div>
@@ -79,9 +79,10 @@ render() {
           <div className="col-lg-7 offset-lg-1 mb-5">
               <form id="form-create-item" className="form-border" action="#">
                   <div className="field-set">
-                      <h5>Upload file</h5>
+                      <h5>Image Url</h5>
+                      <input type="text" name="image_url" id="image_url" className="form-control" placeholder="e.g. 'Image Url" />
 
-                      <div className="d-create-file">
+                      {/* <div className="d-create-file">
                           <p id="file_name">PNG, JPG, GIF, WEBP or MP4. Max 200mb.</p>
                           {this.state.files.map(x => 
                           <p key="{index}">PNG, JPG, GIF, WEBP or MP4. Max 200mb.{x.name}</p>
@@ -91,9 +92,9 @@ render() {
                             <input id='upload_file' type="file" multiple onChange={this.onChange} />
                           </div>
                           
-                      </div>
+                      </div> */}
 
-                      <div className="spacer-single"></div>
+                      
 
                       <h5>Title</h5>
                       <input type="text" name="item_title" id="item_title" className="form-control" placeholder="e.g. 'Crypto Funk" />
@@ -115,7 +116,7 @@ render() {
 
                       <div className="spacer-10"></div>
 
-                      <input type="button" id="submit" className="btn-main" value="Create Item"/>
+                      <input type="button" id="submit" className="btn-main" value="Mint NFT"/>
                   </div>
               </form>
           </div>
