@@ -165,9 +165,9 @@ pauseOnHover
               </div>
           </div>
 
-          <div className='search'>
+          {/* <div className='search'>
             <input id="quick_search" className="xs-hide" name="quick_search" placeholder="search item here..." type="text" />
-          </div>
+          </div> */}
                     
               <BreakpointProvider>
                 <Breakpoint l down>
@@ -181,7 +181,7 @@ pauseOnHover
                     </div>
                     <div className='navbar-item'>
                       <NavLink to="/explore">
-                      Market Place
+                      Upcoming Auctions
                       <span className='lines'></span>
                       </NavLink>
                     </div>
@@ -191,12 +191,15 @@ pauseOnHover
                       <span className='lines'></span>
                       </NavLink>
                     </div>
-                    <div className='navbar-item'>
+                    {isAuthenticated && (
+                      <div className='navbar-item'>
                       <NavLink to="/Author">
                       Profile
                       <span className='lines'></span>
                       </NavLink>
                     </div>
+                    )}
+                    
                     <div className='navbar-item'>
                       <NavLink to="/create">
                       Mint NFT
@@ -217,7 +220,7 @@ pauseOnHover
                     </div>
                     <div className='navbar-item'>
                       <NavLink to="/explore">
-                      Market Place
+                      Upcoming Auctions
                       <span className='lines'></span>
                       </NavLink>
                     </div>
@@ -227,12 +230,15 @@ pauseOnHover
                       <span className='lines'></span>
                       </NavLink>
                     </div>
-                    <div className='navbar-item'>
+                    {isAuthenticated && (
+                      <div className='navbar-item'>
                       <NavLink to="/Author">
                       Profile
                       <span className='lines'></span>
                       </NavLink>
                     </div>
+                    )}
+                    
                     <div className='navbar-item'>
                       <NavLink to="/create">
                       Mint NFT

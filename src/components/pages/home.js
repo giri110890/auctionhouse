@@ -14,11 +14,11 @@ const home= () => (
          <SliderMain/>
       </section>
 
-      <section className='container no-top no-bottom'>
+      {/* <section className='container no-top no-bottom'>
         <FeatureBox/>
-      </section>
+      </section> */}
 
-      <section className='container no-bottom'>
+      {/* <section className='container no-bottom'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='text-center'>
@@ -30,9 +30,9 @@ const home= () => (
             <CarouselCollection/>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className='container no-bottom'>
+      {/* <section className='container no-bottom'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='text-center'>
@@ -44,9 +44,9 @@ const home= () => (
             <CarouselNew/>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className='container no-bottom'>
+      {/* <section className='container no-bottom'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='text-center'>
@@ -58,9 +58,9 @@ const home= () => (
             <AuthorList/>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className='container'>
+      {/* <section className='container'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='text-center'>
@@ -70,9 +70,8 @@ const home= () => (
           </div>
         </div>
         <Catgor/>
-      </section>
+      </section> */}
 
-    <Footer />
 
   </div>
 );
