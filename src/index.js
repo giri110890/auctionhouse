@@ -9,9 +9,16 @@ import '../node_modules/bootstrap/dist/js/bootstrap.js';
 import './assets/style.scss';
 import App from './components/app';
 import * as serviceWorker from './serviceWorker';
+import {MoralisProvider} from 'react-moralis';
+
+const appId = "u8vroeJmzig3zfYGPNpwdAu3jAInAuk1cYTdJ4Ms";
+const serverUrl = "https://o3nk6hfueknr.moralishost.com:2053/server";
 
 ReactDOM.render(
-	<App />, document.getElementById('root'));
+	<MoralisProvider appId={appId} serverUrl={serverUrl}>
+		<App />
+	</MoralisProvider>
+	, document.getElementById('root'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
