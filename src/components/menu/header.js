@@ -3,6 +3,9 @@ import Breakpoint, { BreakpointProvider, setDefaultBreakpoints } from "react-soc
 import { header } from 'react-bootstrap';
 import { Link } from '@reach/router';
 import useOnclickOutside from "react-cool-onclickoutside";
+import { useMoralis}from 'react-moralis';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 setDefaultBreakpoints([
@@ -27,6 +30,40 @@ const NavLink = props => (
 
 
 const Header= function() {
+
+  const {authenticate, isAuthenticated, authError, user,  logout} = useMoralis();
+
+  if(authError)
+  {
+    toast.error(authError.message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+
+
+  if(isAuthenticated)
+  {
+  
+    localStorage.setItem('walletAddress', user.get("ethAddress"));
+    toast.success('Authentication successful', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  else{
+    localStorage.removeItem("walletAddress");
+  }
 
     const [openMenu, setOpenMenu] = React.useState(false);
     const [openMenu1, setOpenMenu1] = React.useState(false);
@@ -93,6 +130,17 @@ const Header= function() {
     }, []);
     return (
     <header id="myHeader" className='navbar white'>
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
      <div className='container'>
        <div className='row w-100-nav'>
           <div className='logo px-0'>
@@ -195,9 +243,19 @@ const Header= function() {
                 </Breakpoint>
               </BreakpointProvider>
 
-              <div className='mainside'>
-                <NavLink to="/wallet" className="btn-main">Connect Wallet</NavLink>
+              {isAuthenticated && (
+                <div className='mainside'>
+                <button onClick={() => logout()} className="btn-main"> Logout</button>
+                
               </div>
+              )}
+
+              {!isAuthenticated && (
+                <div className='mainside'>
+                  <button onClick={() => authenticate()} className="btn-main"> Connect Wallet</button>
+                
+              </div>
+              )}
                   
       </div>
 
@@ -207,7 +265,9 @@ const Header= function() {
           <div className="menu-line2 white"></div>
         </button>
 
-      </div>     
+      </div>
+
+        
     </header>
     );
 }
