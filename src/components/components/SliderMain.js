@@ -29,11 +29,11 @@ const slidermain= () => (
           <div className="col-md-6">
               <div className="spacer-single"></div>
               <Reveal className='onStep' keyframes={fadeInUp} delay={0} duration={600} triggerOnce>
-              <h6 className=""><span className="text-uppercase color">Gigaland Market</span></h6>
+              <h6 className=""><span className="text-uppercase color">Auction House</span></h6>
               </Reveal>
               <div className="spacer-10"></div>
               <Reveal className='onStep' keyframes={fadeInUp} delay={300} duration={600} triggerOnce>
-              <h1 className="">Create, sell or collect digital items.</h1>
+              <h1 className="">Community driven NFT Auction house.</h1>
               </Reveal>
               <Reveal className='onStep' keyframes={fadeInUp} delay={600} duration={600} triggerOnce>
               <p className=" lead">
