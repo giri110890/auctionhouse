@@ -149,17 +149,17 @@ pauseOnHover
                 <img
                     src="./img/logo.png"
                     className="img-fluid d-block"
-                    alt="#"
+                    alt="#" style={{height : '35px', paddingTop : '-105px'}}
                   />
                   <img
-                    src="./img/logo-2.png"
+                    src="./img/logo.png"
                     className="img-fluid d-3"
                     alt="#"
                   />
                   <img
-                    src="./img/logo-light.png"
+                    src="./img/logo.png"
                     className="img-fluid d-none"
-                    alt="#"
+                    alt="#" style={{height : '35px', paddingTop : '-105px'}}
                   />
                 </NavLink>
               </div>
