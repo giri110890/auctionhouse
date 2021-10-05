@@ -219,7 +219,7 @@ pauseOnHover
                       </NavLink>
                     </div>
                     <div className='navbar-item'>
-                      <NavLink to="/explore">
+                      <NavLink to="/upcomingauctions">
                       Upcoming Auctions
                       <span className='lines'></span>
                       </NavLink>
@@ -238,13 +238,18 @@ pauseOnHover
                       </NavLink>
                     </div>
                     )}
-                    
-                    <div className='navbar-item'>
+
+
+                    {isAuthenticated && (
+                      <div className='navbar-item'>
                       <NavLink to="/create">
                       Mint NFT
                       <span className='lines'></span>
                       </NavLink>
                     </div>
+                    )}
+                    
+                    
                   </div>
                 </Breakpoint>
               </BreakpointProvider>

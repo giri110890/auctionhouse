@@ -47,6 +47,25 @@ constructor() {
     };
   }
 
+  handleTitleChange(event){
+    var title = document.getElementById("item_title").value;
+    document.getElementById("nft_item_title").innerHTML = title;
+    
+  }
+
+  handlePriceChange(event){
+    var title = document.getElementById("item_price").value;
+    if(title == null || title == ""){
+      title = "0";
+    }
+    document.getElementById("nft_item_price_info").innerHTML = title + " MATIC";
+  }
+
+  handleImageChange(event) {
+    var imageItem = document.getElementById("image_url").value;
+    document.getElementById("get_file_2").src = imageItem;
+  }
+
   onChange(e) {
     var files = e.target.files;
     console.log(files);
@@ -80,7 +99,7 @@ render() {
               <form id="form-create-item" className="form-border" action="#">
                   <div className="field-set">
                       <h5>Image Url</h5>
-                      <input type="text" name="image_url" id="image_url" className="form-control" placeholder="e.g. 'Image Url" />
+                      <input type="text"  onChange={this.handleImageChange} name="image_url" id="image_url" className="form-control" placeholder="e.g. 'Image Url" />
 
                       {/* <div className="d-create-file">
                           <p id="file_name">PNG, JPG, GIF, WEBP or MP4. Max 200mb.</p>
@@ -97,7 +116,7 @@ render() {
                       
 
                       <h5>Title</h5>
-                      <input type="text" name="item_title" id="item_title" className="form-control" placeholder="e.g. 'Crypto Funk" />
+                      <input type="text" onChange={this.handleTitleChange} name="item_title" id="item_title" className="form-control" placeholder="e.g. 'Crypto Funk" />
 
                       <div className="spacer-10"></div>
 
@@ -107,7 +126,7 @@ render() {
                       <div className="spacer-10"></div>
 
                       <h5>Price</h5>
-                      <input type="text" name="item_price" id="item_price" className="form-control" placeholder="enter price for one item (MATIC)" />
+                      <input type="text" onChange={this.handlePriceChange} name="item_price" id="item_price" className="form-control" placeholder="enter price for one item (MATIC)" />
 
                       <div className="spacer-10"></div>
 
@@ -124,15 +143,8 @@ render() {
           <div className="col-lg-3 col-sm-6 col-xs-12">
                   <h5>Preview item</h5>
                   <div className="nft__item m-0">
-                      <div className="de_countdown">
-                        <Clock deadline="December, 30, 2021" />
-                      </div>
-                      <div className="author_list_pp">
-                          <span>                                    
-                              <img className="lazy" src="./img/author/author-1.jpg" alt=""/>
-                              <i className="fa fa-check"></i>
-                          </span>
-                      </div>
+                     
+                     
                       <div className="nft__item_wrap">
                           <span>
                               <img src="./img/collections/coll-item-3.jpg" id="get_file_2" className="lazy nft__item_preview" alt=""/>
@@ -140,16 +152,16 @@ render() {
                       </div>
                       <div className="nft__item_info">
                           <span >
-                              <h4>Pinky Ocean</h4>
+                              <h4 id="nft_item_title">Pinky Ocean</h4>
                           </span>
-                          <div className="nft__item_price">
-                              0.08 ETH<span>1/20</span>
+                          <div className="nft__item_price" id="nft_item_price_info">
+                              0.08 MATIC
                           </div>
                           <div className="nft__item_action">
                               <span>Place a bid</span>
                           </div>
                           <div className="nft__item_like">
-                              <i className="fa fa-heart"></i><span>50</span>
+                              <i className="fa fa-heart"></i><span>1</span>
                           </div>                            
                       </div> 
                   </div>
