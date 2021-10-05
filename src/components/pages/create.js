@@ -107,12 +107,12 @@ render() {
                       <div className="spacer-10"></div>
 
                       <h5>Price</h5>
-                      <input type="text" name="item_price" id="item_price" className="form-control" placeholder="enter price for one item (ETH)" />
+                      <input type="text" name="item_price" id="item_price" className="form-control" placeholder="enter price for one item (MATIC)" />
 
                       <div className="spacer-10"></div>
 
-                      <h5>Royalties</h5>
-                      <input type="text" name="item_royalties" id="item_royalties" className="form-control" placeholder="suggested: 0, 10%, 20%, 30%. Maximum is 70%" />
+                      {/* <h5>Royalties</h5>
+                      <input type="text" name="item_royalties" id="item_royalties" className="form-control" placeholder="suggested: 0, 10%, 20%, 30%. Maximum is 70%" /> */}
 
                       <div className="spacer-10"></div>
 
