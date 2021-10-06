@@ -11,8 +11,9 @@ export async function UploadFilesWeb3(imageUrl, title, description, accountAddre
     owner: accountAddress,
     timestamp: Date().toString(),
   });
-  const storage = getStorge();
-  const cid = await storage.put(metadataFile);
+  const storage = getStorage();
+  const cid = await storage.put([metadataFile]);
+  return `https://${cid}.ipfs.dweb.link/info.json`;
 
 }
 
@@ -34,7 +35,7 @@ export async function getImageMetadata(cid) {
 }
 export async function getFiles() {
   const filesData = [];
-  for await (const upload of getStorge().list()) {
+  for await (const upload of getStorage().list()) {
     try {
       const metadata = await getImageMetadata(upload.cid);
       filesData.push(metadata);
@@ -45,7 +46,7 @@ export async function getFiles() {
   }
   return filesData;
 }
-export function getStorge() {
+export function getStorage() {
   const accessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDNEMjA2NUE4ZWE5MWY5RTFhRWRlMkVlYTAzQkZERDQ0NDk1MURjNzkiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2MzA2NzgyNDcyNjcsIm5hbWUiOiJNZXRhYnVpZGwifQ.jS08gm_lyxhkawrdqsRzuTkaXQO7hmk2VOEx5b4vjCM";
   return new Web3Storage({ token: accessToken });
@@ -56,6 +57,6 @@ export async function deleteFile(cid) {
   const storage = new Web3Storage({ token: accessToken });
   storage.delete(cid);
 }
-function makeGatewayURL(cid, path) {
-  return `https://${cid}.ipfs.dweb.link/${encodeURIComponent(path)}`;
+function makeGatewayURL(cid) {
+  return `https://${cid}.ipfs.dweb.link/info.json`;
 }

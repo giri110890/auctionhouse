@@ -258,7 +258,13 @@ export const AuctionHouseAbi =
 			}
 		],
 		"name": "mintWithIndex",
-		"outputs": [],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -510,19 +516,6 @@ export const AuctionHouseAbi =
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAllAuctionTokens",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "tokenIds",
-				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",

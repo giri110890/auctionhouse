@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Clock from "../components/Clock";
 import Footer from '../components/footer';
+import {mintNFT} from '../../services/Interact';
+
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
@@ -44,35 +46,58 @@ constructor() {
     this.onChange = this.onChange.bind(this);
     this.state = {
       files: [],
+      title: " ",
+      description: " ",
+      price: 0,
+      imageUrl: ""
     };
   }
 
-  handleTitleChange(event){
-    var title = document.getElementById("item_title").value;
-    document.getElementById("nft_item_title").innerHTML = title;
-    
+  handleTitleChange = (event) => {
+    var newTitle = document.getElementById("item_title").value;
+    document.getElementById("nft_item_title").innerHTML = newTitle;
+    this.setState({
+      title: newTitle
+    })
   }
 
-  handlePriceChange(event){
-    var title = document.getElementById("item_price").value;
-    if(title == null || title == ""){
-      title = "0";
-    }
-    document.getElementById("nft_item_price_info").innerHTML = title + " MATIC";
+  handleDescriptionChange = (event) => {
+    var newDescription = document.getElementById("item_desc").value;
+    this.setState({
+      description: newDescription
+    })
   }
 
-  handleImageChange(event) {
-    var imageItem = document.getElementById("image_url").value;
-    document.getElementById("get_file_2").src = imageItem;
+  handlePriceChange = (event) => {
+    var newPrice = document.getElementById("item_price").value;
+    document.getElementById("nft_item_price_info").innerHTML = newPrice + " MATIC";
+    this.setState({
+      price : newPrice
+    })
   }
 
-  onChange(e) {
+  handleImageChange = (event) => {
+    var newImageItem = document.getElementById("image_url").value;
+    document.getElementById("get_file_2").src = newImageItem;
+    this.setState({
+      imageUrl : newImageItem
+    })
+  }
+
+  onChange = async(e) => {
     var files = e.target.files;
     console.log(files);
     var filesArr = Array.prototype.slice.call(files);
     console.log(filesArr);
     document.getElementById("file_name").style.display = "none";
     this.setState({ files: [...this.state.files, ...filesArr] });
+  }
+
+
+   onMintSubmit = async (e) => {
+    document.getElementById("mint").disabled = true;
+    await mintNFT(localStorage.getItem("walletAddress"), this.state.imageUrl, this.state.title, this.state.description, this.state.price);
+    document.getElementById("mint").disabled = false;
   }
 
 render() {
@@ -121,7 +146,7 @@ render() {
                       <div className="spacer-10"></div>
 
                       <h5>Description</h5>
-                      <textarea data-autoresize name="item_desc" id="item_desc" className="form-control" placeholder="e.g. 'This is very limited item'"></textarea>
+                      <textarea data-autoresize onChange={this.handleDescriptionChange} name="item_desc" id="item_desc" className="form-control" placeholder="e.g. 'This is very limited item'"></textarea>
 
                       <div className="spacer-10"></div>
 
@@ -135,7 +160,7 @@ render() {
 
                       <div className="spacer-10"></div>
 
-                      <input type="button" id="submit" className="btn-main" value="Mint NFT"/>
+                      <input type="button" onClick={this.onMintSubmit} id="mint" className="btn-main" value="Mint NFT"/>
                   </div>
               </form>
           </div>
