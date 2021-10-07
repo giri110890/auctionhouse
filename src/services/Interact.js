@@ -1,8 +1,8 @@
 import {UploadFilesWeb3} from './Web3Storage';
 import { AuctionHouseAbi } from './AuctionHouseAbi';
 import Moralis from 'moralis';
+import { globalConstant } from '../constants/global';
 
-const auctionContractAddress = '0x8E4e3b0CC00Ca0855EE88aCF0aDB80F968FC531d';
 
 export const connectWallet = async () => {
 
@@ -53,31 +53,11 @@ export const connectWallet = async () => {
     //Call web3storage - return tokenURI
     const tokenURI = await UploadFilesWeb3(imageUrl, title, description, accountAddress);
     //Call Mint
-    debugger;
-    // const transactionParameters = {
-    //   to: auctionContractAddress, // Required except during contract publications.
-    //   from: accountAddress, // must match user's active address.
-    //   data: window.auctionContract.methods
-    //     .mintWithIndex(accountAddress, tokenURI, price)
-    //     .encodeABI(),
-    // };
 
-    // try {
-    //   const txHash = await window._moralis.eth.call({
-    //     to: auctionContractAddress,
-    //     data: window.auctionContract.methods
-    //     .mintWithIndex(accountAddress, tokenURI, price)
-    //     .encodeABI()
-    //   })
-    //   console.log("Transaction Hash", txHash);
-    // } catch (error) {
-    //   return {
-    //     success: false,
-    //     status: "😥 Something went wrong: " + error.message,
-    //   };
-    // }
+    
 
     //Execute
+    let auctionContractAddress = globalConstant.contractAddress;
     const options = {
       contractAddress: auctionContractAddress,
       functionName: "mintWithIndex",

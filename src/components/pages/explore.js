@@ -2,7 +2,12 @@ import React from 'react';
 import Select from 'react-select'
 import ColumnNew from '../components/ColumnNew';
 import Footer from '../components/footer';
+import { useMoralis } from 'react-moralis';
+import Moralis from 'moralis';
 import { createGlobalStyle } from 'styled-components';
+
+import {globalConstant} from '../../constants/global';
+const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -66,13 +71,43 @@ const options2 = [
 ]
 
 
-const explore= () => (
+const explore = function(){
+
+  const options = { address: globalConstant.contractAddress, chain: "mumbai" };
+  let NFTs = {};
+  let actualNFTs = {};
+
+  if(!window._moralis){
+    const web3 = Moralis.enable().then(function (d){
+      window._moralis = d;
+      window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
+     
+
+      NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+        actualNFTs = data;
+        
+        });
+    });
+  }
+  else{
+    NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+      actualNFTs = data;
+    });
+  }
+
+
+
+
+
+  return(
+    <>
 <div>
 <GlobalStyles/>
 
 <br/>
   <section className='container'>
     <br/>
+    <span>{actualNFTs?.total} </span>
         <div className='row'>
           <div className='col-lg-12'>
               <div className="items_filter">
@@ -94,6 +129,8 @@ const explore= () => (
 
   <Footer />
 </div>
+    </>
+  )
 
-);
+};
 export default explore;
