@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Clock from "./Clock";
 import Moralis from 'moralis';
 import {globalConstant} from '../../constants/global';
+import { height } from "dom-helpers";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const Outer = styled.div`
@@ -187,7 +188,7 @@ export default class Responsive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        nfts: this.dummyData.slice(0,8),
+        nfts:[],
         height: 0,
         total: 0,
         isCalled : false
@@ -195,11 +196,11 @@ export default class Responsive extends Component {
     };
     this.onImgLoad = this.onImgLoad.bind(this);
     this.loadItems = this.loadItems.bind(this);
+    this.loadItems(this);
     }
 
-    loadItems = function(){
+    loadItems = (thiscontext) => {
         let NFTs = {};
-        debugger;
         let options = { address: globalConstant.contractAddress, chain: "mumbai" };
         if(!window._moralis){
           const web3 = Moralis.enable().then(function (d){
@@ -209,9 +210,11 @@ export default class Responsive extends Component {
       
             NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
               
-              console.log(data);
-              this.setState({
-                total: data.total
+            
+                console.log(data);
+              thiscontext.setState({
+                total: data.total,
+                nfts : data.result
               })
               
               });
@@ -221,33 +224,65 @@ export default class Responsive extends Component {
           NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
             
             console.log(data);
-            debugger;
-            this.setState({
-                total: data.total
+            thiscontext.setState({
+                total: data.total,
+                nfts : data.result
               })
               
           });
         }
       }
 
+    voteForToken = async function(tokenID){
+        const options = {
+            contractAddress: globalConstant.contractAddress,
+            functionName: "vote",
+            abi: AuctionHouseAbi,
+            params: {
+                tokenId : tokenID
+            },
+          };
+          
+          let receipt = await Moralis.executeFunction(options);
+    }
+
+    getMetadataFromString = function(metadataString, fieldName){
+        let jsonObject = JSON.parse(metadataString);
+        if(jsonObject != null)
+        {
+            if(fieldName == "title")
+            {
+                return jsonObject.title;
+            }
+            else if(fieldName == "image")
+            {
+                return jsonObject.path;
+            }
+            else if(fieldName == "owner")
+            {
+                return jsonObject.owner;
+            }
+            else 
+            {
+                return jsonObject.timestamp;
+            }
+        }
+
+        return "";
+        
+    }
+
     loadMore = () => {
         let nftState = this.state.nfts
         let start = nftState.length
         let end = nftState.length+4
         this.setState({
-            nfts: [...nftState, ...(this.dummyData.slice(start, end))]
+            nfts: [...nftState, ...(this.state.nfts.slice(start, end))]
         });
     }
 
     onImgLoad({target:img}) {
        
-        if(!this.state.isCalled)
-        {
-            this.setState({
-                isCalled : true
-            })
-            this.loadItems();
-        }
         let currentHeight = this.state.height;
         if(currentHeight < img.offsetHeight) {
             this.setState({
@@ -264,30 +299,30 @@ export default class Responsive extends Component {
                 <div className="nft__item m-0">
                    
                     <div className="author_list_pp">
-                        <span onClick={()=> window.open(nft.authorLink, "_self")}>                                    
+                        {/* <span onClick={()=> window.open(nft.authorLink, "_self")}>                                    
                             <img className="lazy" src={nft.authorImg} alt=""/>
                             <i className="fa fa-check"></i>
-                        </span>
+                        </span> */}
                     </div>
                     <div className="nft__item_wrap" style={{height: `${this.state.height}px`}}>
                       <Outer>
                         <span>
-                            <img onLoad={this.onImgLoad} src={nft.previewImg} className="lazy nft__item_preview" alt=""/>
+                            <img onLoad={this.onImgLoad}  src={this.getMetadataFromString(nft.metadata, "image")} style={{ height: "190px",  width: "230px"}} className="lazy nft__item_preview" alt=""/>
                         </span>
                       </Outer>
                     </div>
                     <div className="nft__item_info">
                         <span onClick={()=> window.open(nft.nftLink, "_self")}>
-                            <h4>{nft.title}</h4>
+                            <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
                         </span>
                         <div className="nft__item_price">
-                            {nft.price}<span>{nft.bid}</span>
+                            {nft.amount} MATIC<span>{nft.bid}</span>
                         </div>
                         <div className="nft__item_action">
-                            <span onClick={()=> window.open(nft.bidLink, "_self")}>Place a bid</span>
+                            <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
                         </div>
-                        <div className="nft__item_like">
-                            <i className="fa fa-heart"></i><span>{nft.likes}</span>
+                        <div className="nft__item_like" style={{color: "#8364E2", fontWeight: 300}} onClick={() => { debugger;  window.location.href = "/token/"+ nft.token_id} }>
+                            <i className="fa fa-eye" ></i><span style={{color: "#8364E2", fontWeight: 200}} >Details</span>
                         </div>                            
                     </div> 
                 </div>
