@@ -66,7 +66,8 @@ const app= () => (
         </Home>
         <Explore path="/upcomingauctions" />
         <Colection path="/colection" />
-        <ItemDetail path="/ItemDetail" />
+      
+        <ItemDetail path="/token/:tokenId" />
         <Author path="/Author" />
         <Wallet path="/wallet" />
         <Login path="/login" />
