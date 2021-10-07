@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Clock from "./Clock";
+import Moralis from 'moralis';
+import {globalConstant} from '../../constants/global';
+const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const Outer = styled.div`
   display: flex;
@@ -185,10 +188,47 @@ export default class Responsive extends Component {
     super(props);
     this.state = {
         nfts: this.dummyData.slice(0,8),
-        height: 0
+        height: 0,
+        total: 0,
+        isCalled : false
+    
     };
     this.onImgLoad = this.onImgLoad.bind(this);
+    this.loadItems = this.loadItems.bind(this);
     }
+
+    loadItems = function(){
+        let NFTs = {};
+        debugger;
+        let options = { address: globalConstant.contractAddress, chain: "mumbai" };
+        if(!window._moralis){
+          const web3 = Moralis.enable().then(function (d){
+            window._moralis = d;
+            window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
+           
+      
+            NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+              
+              console.log(data);
+              this.setState({
+                total: data.total
+              })
+              
+              });
+          });
+        }
+        else{
+          NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+            
+            console.log(data);
+            debugger;
+            this.setState({
+                total: data.total
+              })
+              
+          });
+        }
+      }
 
     loadMore = () => {
         let nftState = this.state.nfts
@@ -200,6 +240,14 @@ export default class Responsive extends Component {
     }
 
     onImgLoad({target:img}) {
+       
+        if(!this.state.isCalled)
+        {
+            this.setState({
+                isCalled : true
+            })
+            this.loadItems();
+        }
         let currentHeight = this.state.height;
         if(currentHeight < img.offsetHeight) {
             this.setState({
@@ -214,11 +262,7 @@ export default class Responsive extends Component {
         {this.state.nfts.map( (nft, index) => (
             <div key={index} className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4">
                 <div className="nft__item m-0">
-                    { nft.deadline &&
-                        <div className="de_countdown">
-                            <Clock deadline={nft.deadline} />
-                        </div>
-                    }
+                   
                     <div className="author_list_pp">
                         <span onClick={()=> window.open(nft.authorLink, "_self")}>                                    
                             <img className="lazy" src={nft.authorImg} alt=""/>

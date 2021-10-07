@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select'
 import ColumnNew from '../components/ColumnNew';
 import Footer from '../components/footer';
@@ -71,66 +71,72 @@ const options2 = [
 ]
 
 
-const explore = function(){
 
-  const options = { address: globalConstant.contractAddress, chain: "mumbai" };
-  let NFTs = {};
-  let actualNFTs = {};
+export default class explore extends Component{
+  constructor() {
+    super();
+    this.state = {
+      nfts: [],
+      total: 0
+    };
 
-  if(!window._moralis){
-    const web3 = Moralis.enable().then(function (d){
-      window._moralis = d;
-      window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
-     
 
-      NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
-        actualNFTs = data;
-        
-        });
-    });
-  }
-  else{
-    NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
-      actualNFTs = data;
-    });
+    
+   
+   
+   
+  
+   
+  
   }
 
+ 
 
-
-
-
-  return(
-    <>
-<div>
-<GlobalStyles/>
-
-<br/>
-  <section className='container'>
-    <br/>
-    <span>{actualNFTs?.total} </span>
-        <div className='row'>
-          <div className='col-lg-12'>
-              <div className="items_filter">
-                <form className="row form-dark" id="form_quick_search" name="form_quick_search">
-                    <div className="col">
-                        <input className="form-control" id="name_1" name="name_1" placeholder="search item here..." type="text" /> <button id="btn-submit"><i className="fa fa-search bg-color-secondary"></i></button>
-                        <div className="clearfix"></div>
-                    </div>
-                </form>
-                <div className='dropdownSelect one'><Select styles={customStyles} menuContainerStyle={{'zIndex': 999}} defaultValue={options[0]} options={options} /></div>
-                <div className='dropdownSelect two'><Select styles={customStyles} defaultValue={options1[0]} options={options1} /></div>
-                <div className='dropdownSelect three'><Select styles={customStyles} defaultValue={options2[0]} options={options2} /></div>
+  render(){
+    return(
+      <>
+  <div>
+  <GlobalStyles/>
+  
+  <br/>
+  <section className='jumbotron breadcumb no-bg'  style={{backgroundImage: `url(${'./img/background/subheader.jpg'})`}}>
+          <div className='mainbreadcumb'>
+            <div className='container'>
+              <div className='row m-10-hor'>
+                <div className='col-12'>
+                  <h1 className='text-center'>Upcoming Auctions</h1>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-       <ColumnNew/>
-      </section>
+        </section>
+    <section className='container'>
+      <br/>
 
+    
+          <div className='row'>
+            <div className='col-lg-12'>
+                <div className="items_filter">
+                  <form className="row form-dark" id="form_quick_search" name="form_quick_search">
+                      <div className="col">
+                          <input className="form-control" id="name_1" name="name_1" placeholder="search item here..." type="text" /> <button id="btn-submit"><i className="fa fa-search bg-color-secondary"></i></button>
+                          <div className="clearfix"></div>
+                      </div>
+                  </form>
+                  <div className='dropdownSelect one'><Select styles={customStyles} menuContainerStyle={{'zIndex': 999}} defaultValue={options[0]} options={options} /></div>
+                               </div>
+            </div>
+          </div>
+         <ColumnNew/>
+        </section>
+  
+  
+    <Footer />
+  </div>
+      </>
+    )
+  }
 
-  <Footer />
-</div>
-    </>
-  )
+ 
 
 };
-export default explore;
