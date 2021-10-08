@@ -265,6 +265,20 @@ export default class Responsive extends Component {
         }
       }
 
+
+      getTokenDetails = async (tokenID) => {
+        const options = {
+            contractAddress: globalConstant.contractAddress,
+            functionName: "getTokenDetails",
+            abi: AuctionHouseAbi,
+            params: {
+                tokenId: tokenID
+            },
+        };
+
+        return Moralis.executeFunction(options);
+    }
+
       voteForToken = async function(tokenID){
         const options = {
             contractAddress: globalConstant.contractAddress,
@@ -341,14 +355,11 @@ export default class Responsive extends Component {
                             <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
                         </span>
                         <div className="nft__item_price">
-                            {nft.amount} MATIC<span>{nft.bid}</span>
+                        Supply:  {nft.amount} <span>{nft.bid}</span>
                         </div>
                         <div className="nft__item_action">
-                            <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
-                        </div>
-                        <div className="nft__item_like" style={{color: "#8364E2", fontWeight: 300}} onClick={() => { window.location.href = "/token/"+ nft.token_id} }>
-                            <i className="fa fa-eye" ></i><span style={{color: "#8364E2", fontWeight: 200}} >Details</span>
-                        </div>                             
+                            <span>{this.getMetadataFromString(nft.metadata, "timestamp")}</span>
+                        </div>                            
                     </div> 
                 </div>
             </div>  
