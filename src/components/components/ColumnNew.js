@@ -208,7 +208,7 @@ export default class Responsive extends Component {
             window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
            
       
-            NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+            NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
               
             
                 console.log(data);
@@ -221,7 +221,7 @@ export default class Responsive extends Component {
           });
         }
         else{
-          NFTs = Moralis.Web3API.token.getAllTokenIds(options).then(function(data){
+          NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
             
             console.log(data);
             thiscontext.setState({
@@ -244,6 +244,7 @@ export default class Responsive extends Component {
           };
           
           let receipt = await Moralis.executeFunction(options);
+          debugger;
     }
 
     getMetadataFromString = function(metadataString, fieldName){
@@ -312,7 +313,7 @@ export default class Responsive extends Component {
                       </Outer>
                     </div>
                     <div className="nft__item_info">
-                        <span onClick={()=> window.open(nft.nftLink, "_self")}>
+                        <span onClick={() => { window.location.href = "/token/"+ nft.token_id} }>
                             <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
                         </span>
                         <div className="nft__item_price">
@@ -321,7 +322,7 @@ export default class Responsive extends Component {
                         <div className="nft__item_action">
                             <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
                         </div>
-                        <div className="nft__item_like" style={{color: "#8364E2", fontWeight: 300}} onClick={() => { debugger;  window.location.href = "/token/"+ nft.token_id} }>
+                        <div className="nft__item_like" style={{color: "#8364E2", fontWeight: 300}} onClick={() => { window.location.href = "/token/"+ nft.token_id} }>
                             <i className="fa fa-eye" ></i><span style={{color: "#8364E2", fontWeight: 200}} >Details</span>
                         </div>                            
                     </div> 
