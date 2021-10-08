@@ -59,7 +59,12 @@ const Header =  function () {
 
   if (isAuthenticated) {
 
-    localStorage.setItem('walletAddress', user.get("ethAddress"));
+    if(localStorage.getItem('walletAddress') == null)
+    {
+      debugger;
+      localStorage.setItem('walletAddress', user.get("ethAddress"));
+    }
+    
 
     // toast.success('Authentication successful', {
     //   position: "top-right",
@@ -70,9 +75,6 @@ const Header =  function () {
     //   draggable: true,
     //   progress: undefined,
     //   });
-  }
-  else {
-    localStorage.removeItem("walletAddress");
   }
 
   const [openMenu, setOpenMenu] = React.useState(false);

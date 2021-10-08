@@ -45,7 +45,12 @@ export default class LiveAuction extends Component{
         let fragmentArray = window.location.href.split('/');
         this.state.tokenID = fragmentArray[fragmentArray.length-1];
 
-        
+        if(!window._moralis){
+            const web3 = Moralis.enable().then(function (d){
+              window._moralis = d;
+              window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
+            });
+          }
         
 
         this.handleBtnClick = this.handleBtnClick.bind(this);
@@ -75,20 +80,20 @@ export default class LiveAuction extends Component{
     //     }
     // }
 
-    // getHighestVotedToken = async function() {
-    //     let accountAddress = globalConstant.contractAddress;
-    //         const getHighestVotedOptions = {
-    //           contractAddress: accountAddress,
-    //           functionName: "getMaxVotedToken",
-    //           abi: AuctionHouseAbi,
-    //           params: {
-    //             to : accountAddress,
-    //           },
-    //         };
+    getHighestVotedToken = async function() {
+        let accountAddress = globalConstant.contractAddress;
+            const getHighestVotedOptions = {
+              contractAddress: accountAddress,
+              functionName: "getMaxVotedToken",
+              abi: AuctionHouseAbi,
+              params: {
+                to : accountAddress,
+              },
+            };
            
-    //         const receipt = await Moralis.executeFunction(getHighestVotedOptions);
-    //         debugger;
-    // }
+            const receipt = await Moralis.executeFunction(getHighestVotedOptions);
+            debugger;
+    }
 
      handleBtnClick = () => {
         this.state.openMenu = !(this.state.openMenu);

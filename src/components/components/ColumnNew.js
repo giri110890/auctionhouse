@@ -220,6 +220,7 @@ export default class Responsive extends Component {
                     data.result.map((d, i) => {
                         thiscontext.getTokenDetails(d.token_id).then(d => {
                             data.result[i]._votes = d.votes;
+                            data.result[i]._salePrice = d.salePrice;
                             thiscontext.setState({
                                 total: data.total,
                                 nfts: data.result
@@ -240,6 +241,7 @@ export default class Responsive extends Component {
                 data.result.map((d, i) => {
                     thiscontext.getTokenDetails(d.token_id).then(d => {
                         data.result[i]._votes = d.votes;
+                        data.result[i]._salePrice = d.salePrice;
                         thiscontext.setState({
                             total: data.total,
                             nfts: data.result
@@ -355,12 +357,12 @@ export default class Responsive extends Component {
                                     <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
                                 </span>
                                 <div className="nft__item_price">
-                                    {nft.amount} MATIC<span>{nft.bid}</span>
+                                    Bid Price: {nft._salePrice} MATIC<span>{nft.bid}</span>
                                 </div>
                                 <div className="nft__item_action">
                                     <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
                                 </div>
-                                <div className="nft__item_like" style={{ color: "#8364E2", fontWeight: 300 }} onClick={() => { window.location.href = "/token/" + nft.token_id }}>
+                                <div className="nft__item_like" style={{ color: "#8364E2", fontWeight: 300 }}>
                                     <i className="fa fa-eye" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >{nft._votes}</span>
                                 </div>
                             </div>
