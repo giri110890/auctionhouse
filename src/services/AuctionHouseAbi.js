@@ -1,5 +1,4 @@
-export const AuctionHouseAbi = 
-[
+export const AuctionHouseAbi = [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -586,6 +585,52 @@ export const AuctionHouseAbi =
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getTokenDetails",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "salePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "active",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "votes",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum AuctionHouseBidding.TokenStatus",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct AuctionHouseBidding.Token",
+				"name": "",
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",
