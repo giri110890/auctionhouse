@@ -239,7 +239,7 @@ export default class Responsive extends Component {
         }
         else{
           NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
-            
+    
             console.log(data);
             if(data.result != null)
             {
@@ -255,7 +255,6 @@ export default class Responsive extends Component {
                     }
                    
                 });
-
                 thiscontext.setState({
                     total: data.total,
                     nfts : tempArray

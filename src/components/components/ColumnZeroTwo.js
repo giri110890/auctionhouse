@@ -3,8 +3,10 @@ import styled from "styled-components";
 import Clock from "./Clock";
 import { useMoralis } from 'react-moralis';
 import Moralis from 'moralis';
+import { ToastContainer, toast } from 'react-toastify';
 import { globalConstant } from "../../constants/global";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
+
 
 const Outer = styled.div`
   display: flex;
@@ -225,7 +227,16 @@ export default class Responsive extends Component {
           };
           
           let receipt = await Moralis.executeFunction(auctionOptions);
-          console.log(receipt)
+       
+          toast.success("Move to Auction House is successful", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
     }
 
     loadItems = (thiscontext) => {

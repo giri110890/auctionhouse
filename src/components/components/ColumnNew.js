@@ -4,6 +4,7 @@ import Clock from "./Clock";
 import Moralis from 'moralis';
 import {globalConstant} from '../../constants/global';
 import { height } from "dom-helpers";
+import { ToastContainer, toast } from 'react-toastify';
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const Outer = styled.div`
@@ -244,6 +245,18 @@ export default class Responsive extends Component {
           };
           
           let receipt = await Moralis.executeFunction(options);
+          if(receipt.status)
+          {
+            toast.success("Voting is successful", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+          }
           debugger;
     }
 

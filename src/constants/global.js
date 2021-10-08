@@ -1,3 +1,3 @@
 export const globalConstant = {
-    "contractAddress": '0x8E4e3b0CC00Ca0855EE88aCF0aDB80F968FC531d'
+    "contractAddress": '0xec3f0a227d707fb122040560fc68c0322a5c3c14'
 }
