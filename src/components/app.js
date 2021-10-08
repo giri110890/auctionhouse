@@ -6,6 +6,7 @@ import Home from './pages/home';
 import Home1 from './pages/home1';
 import Home2 from './pages/home2';
 import Home3 from './pages/home3';
+import LiveAuction from './pages/liveAuction';
 import Explore from './pages/explore';
 import Colection from './pages/colection';
 import ItemDetail from './pages/ItemDetail';
@@ -68,6 +69,7 @@ const app= () => (
         <Colection path="/colection" />
       
         <ItemDetail path="/token/:tokenId" />
+        <LiveAuction path ="/liveAuction" />
         <Author path="/Author" />
         <Wallet path="/wallet" />
         <Login path="/login" />

@@ -133,3 +133,19 @@ export const connectWallet = async () => {
     
 
   }
+
+  export const getMaxToken = async () => {
+    let accountAddress = globalConstant.contractAddress;
+            const getHighestVotedOptions = {
+              contractAddress: accountAddress,
+              functionName: "getMaxVotedToken",
+              abi: AuctionHouseAbi,
+              params: {
+                to : accountAddress,
+              },
+            };
+           
+            const receipt = await Moralis.executeFunction(getHighestVotedOptions);
+            console.log(receipt);
+            debugger;
+  }

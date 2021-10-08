@@ -113,13 +113,6 @@ export default class Colection extends Component{
     return "";
     
 }
-    
-
-
-
- 
-
-
 
 
 
@@ -134,7 +127,32 @@ render(){
               <>
           <section className='container'>
           <div className='row mt-md-5 pt-md-4'>
-        
+          <div className="col-lg-3 col-sm-6 col-xs-12">
+                  <h5>Preview item</h5>
+                  <div className="nft__item m-0">
+                     
+                     
+                      <div className="nft__item_wrap">
+                          <span>
+                              <img src="./img/collections/coll-item-3.jpg" id="get_file_2" className="lazy nft__item_preview" alt=""/>
+                          </span>
+                      </div>
+                      <div className="nft__item_info">
+                          <span >
+                              <h4 id="nft_item_title">Pinky Ocean</h4>
+                          </span>
+                          <div className="nft__item_price" id="nft_item_price_info">
+                              0.08 MATIC
+                          </div>
+                          <div className="nft__item_action">
+                              <span>Place a bid</span>
+                          </div>
+                          <div className="nft__item_like">
+                              <i className="fa fa-heart"></i><span>1</span>
+                          </div>                            
+                      </div> 
+                  </div>
+              </div> 
           <div className="col-md-6 text-center">
                                   <img src={this.getMetadataFromStringgetMetadataFromString(this.state.tokenInfo?.metadata, "image")} className="img-fluid img-rounded mb-sm-30" alt=""/>
                               </div>

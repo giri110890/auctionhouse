@@ -197,7 +197,7 @@ const Header =  function () {
                       </NavLink>
                     </div>
                     <div className='navbar-item'>
-                      <NavLink to="/ItemDetail">
+                      <NavLink to="/liveAuction">
                         Live Auction
                         <span className='lines'></span>
                       </NavLink>
@@ -236,7 +236,7 @@ const Header =  function () {
                     </NavLink>
                   </div>
                   <div className='navbar-item'>
-                    <NavLink to="/ItemDetail">
+                    <NavLink to="/liveAuction">
                       Live Auction
                       <span className='lines'></span>
                     </NavLink>
