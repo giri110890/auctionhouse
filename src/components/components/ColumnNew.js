@@ -205,6 +205,7 @@ export default class Responsive extends Component {
         let NFTs = {};
         let options = { address: globalConstant.contractAddress, chain: "mumbai" };
         showLoader();
+        const me = this;
         if (!window._moralis) {
             const web3 = Moralis.enable().then(function (d) {
                 window._moralis = d;
@@ -213,12 +214,20 @@ export default class Responsive extends Component {
 
                 NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
 
-
+                    debugger;
                     console.log(data);
-                    thiscontext.setState({
-                        total: data.total,
-                        nfts: data.result
+
+                    data.result.map((d, i) => {
+                        thiscontext.getTokenDetails(d.token_id).then(d => {
+                            data.result[i]._votes = d.votes;
+                            thiscontext.setState({
+                                total: data.total,
+                                nfts: data.result
+                            })
+                        })
                     })
+
+                    debugger;
                     hideLoader();
                 });
             });
@@ -227,10 +236,19 @@ export default class Responsive extends Component {
             NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
 
                 console.log(data);
-                thiscontext.setState({
-                    total: data.total,
-                    nfts: data.result
+
+                data.result.map((d, i) => {
+                    thiscontext.getTokenDetails(d.token_id).then(d => {
+                        data.result[i]._votes = d.votes;
+                        thiscontext.setState({
+                            total: data.total,
+                            nfts: data.result
+                        })
+                    })
+
                 })
+
+                debugger
                 hideLoader();
             });
         }
@@ -290,7 +308,18 @@ export default class Responsive extends Component {
             nfts: [...nftState, ...(this.state.nfts.slice(start, end))]
         });
     }
+    getTokenDetails = async (tokenID) => {
+        const options = {
+            contractAddress: globalConstant.contractAddress,
+            functionName: "getTokenDetails",
+            abi: AuctionHouseAbi,
+            params: {
+                tokenId: tokenID
+            },
+        };
 
+        return Moralis.executeFunction(options);
+    }
     onImgLoad({ target: img }) {
 
         let currentHeight = this.state.height;
@@ -332,7 +361,7 @@ export default class Responsive extends Component {
                                     <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
                                 </div>
                                 <div className="nft__item_like" style={{ color: "#8364E2", fontWeight: 300 }} onClick={() => { window.location.href = "/token/" + nft.token_id }}>
-                                    <i className="fa fa-eye" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >Details</span>
+                                    <i className="fa fa-eye" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >{nft._votes}</span>
                                 </div>
                             </div>
                         </div>
