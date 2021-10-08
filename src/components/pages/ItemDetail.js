@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react';
 import Clock from "../components/Clock";
 import Footer from '../components/footer';
 import { createGlobalStyle } from 'styled-components';
@@ -25,9 +25,7 @@ const GlobalStyles = createGlobalStyle`
 
 
 export default class Colection extends Component{
-    tokenID;
-    openMenu;
-    openMenu1;
+   
     constructor(){
         super();
         
@@ -37,37 +35,45 @@ export default class Colection extends Component{
           description: " ",
           price: 0,
           imageUrl: "",
-          tokenInfo: {}
+          tokenInfo: {},
+          tokenID: 0,
+          openMenu: true,
+          openMenu1: false
         };
 
         let fragmentArray = window.location.href.split('/');
-        this.tokenID = fragmentArray[fragmentArray.length-1];
+        this.state.tokenID = fragmentArray[fragmentArray.length-1];
 
+        
+        
+
+        this.handleBtnClick = this.handleBtnClick.bind(this);
+        this.handleBtnClick1 = this.handleBtnClick1.bind(this);
+        this.getTokenInfo = this.getTokenInfo.bind(this);
+
+        this.getTokenInfo();
+    }
+
+    getTokenInfo = async function()
+    {
         let accountAddress = globalConstant.contractAddress;
         let options = { address:accountAddress , chain: "mumbai" };
-        let NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
-            if(data.result != null)
-            {
-                data.result.forEach(element => {
-                    if(element.token_id == tokenID)
-                    {
-                        this.state.tokenInfo = element;
-                    }
-                });
-            }
-            
-        });
-
-        openMenu = true;
-        openMenu1 = false;
-
-
+        debugger;
+        let NFTs = await Moralis.Web3API.account.getNFTs(options);
+        if(NFTs != null)
+        {
+            NFTs.forEach(element => {
+                if(element.token_id == this.state.tokenID)
+                {
+                    this.state.tokenInfo = element;
+                }
+            });
+        }
     }
 
      handleBtnClick = () => {
-         this.openMenu = !(this.openMenu);
-        
-         this.openMenu1 = false;
+        this.state.openMenu = !(this.state.openMenu);
+        this.state.openMenu1 = false;
         document.getElementById("Mainbtn").classList.add("active");
         document.getElementById("Mainbtn1").classList.remove("active");
       };
@@ -75,23 +81,14 @@ export default class Colection extends Component{
 
        handleBtnClick1 = () => {
 
-        this.openMenu1= !(this.openMenu1);
-        
-        this.openMenu = false;
+        this.state.openMenu1= !(this.state.openMenu1);
+        this.state.openMenu = false;
         document.getElementById("Mainbtn1").classList.add("active");
         document.getElementById("Mainbtn").classList.remove("active");
       };
-    
 
-
-
- 
-
-
-
-
-
- getMetadataFromString = (metadataString, fieldName) => {
+      
+ getMetadataFromString = function(metadataString, fieldName) {
     let jsonObject = JSON.parse(metadataString);
     if(jsonObject != null)
     {
@@ -115,7 +112,17 @@ export default class Colection extends Component{
 
     return "";
     
-};
+}
+    
+
+
+
+ 
+
+
+
+
+
 
 render(){
     return (
@@ -129,7 +136,7 @@ render(){
           <div className='row mt-md-5 pt-md-4'>
         
           <div className="col-md-6 text-center">
-                                  <img src={getMetadataFromString(this.state.tokenInfo?.metadata, "image")} className="img-fluid img-rounded mb-sm-30" alt=""/>
+                                  <img src={this.getMetadataFromStringgetMetadataFromString(this.state.tokenInfo?.metadata, "image")} className="img-fluid img-rounded mb-sm-30" alt=""/>
                               </div>
                               <div className="col-md-6">
                                   <div className="item_info">
@@ -163,12 +170,12 @@ render(){
                                       <div className="de_tab">
           
                                       <ul className="de_nav">
-                                          <li id='Mainbtn' className="active"><span onClick={handleBtnClick}>Bids</span></li>
-                                          <li id='Mainbtn1' className=''><span onClick={handleBtnClick1}>History</span></li>
+                                          <li id='Mainbtn' className="active"><span onClick={this.handleBtnClick}>Bids</span></li>
+                                          <li id='Mainbtn1' className=''><span onClick={this.handleBtnClick1}>History</span></li>
                                       </ul>
                                       
                                       <div className="de_tab_content">
-                                          {openMenu && (  
+                                          {this.state.openMenu && (  
                                           <div className="tab-1 onStep fadeIn">
                                               <div className="p_list">
                                                   <div className="p_list_pp">
@@ -224,7 +231,7 @@ render(){
                                           </div>
                                           )}
         
-                                          {openMenu1 && ( 
+                                          {this.state.openMenu1 && ( 
                                           <div className="tab-2 onStep fadeIn">
                                               <div className="p_list">
                                                   <div className="p_list_pp">
