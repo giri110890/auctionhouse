@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Clock from "./Clock";
 import Moralis from 'moralis';
-import {globalConstant} from '../../constants/global';
+import { globalConstant } from '../../constants/global';
 import { height } from "dom-helpers";
 import { ToastContainer, toast } from 'react-toastify';
+import { hideLoader, showLoader } from "../../services/loaderservice";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const Outer = styled.div`
@@ -18,7 +19,7 @@ const Outer = styled.div`
 
 export default class Responsive extends Component {
     dummyData = [{
-        deadline:"December, 30, 2021",
+        deadline: "December, 30, 2021",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -30,7 +31,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -42,7 +43,7 @@ export default class Responsive extends Component {
         likes: 80
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -54,7 +55,7 @@ export default class Responsive extends Component {
         likes: 97
     },
     {
-        deadline:"January, 1, 2022",
+        deadline: "January, 1, 2022",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -66,7 +67,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -78,7 +79,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"January, 15, 2022",
+        deadline: "January, 15, 2022",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -90,7 +91,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -102,7 +103,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -114,7 +115,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"January, 3, 2022",
+        deadline: "January, 3, 2022",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -126,7 +127,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -138,7 +139,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -150,7 +151,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"January, 10, 2022",
+        deadline: "January, 10, 2022",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -162,7 +163,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"",
+        deadline: "",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -174,7 +175,7 @@ export default class Responsive extends Component {
         likes: 50
     },
     {
-        deadline:"January, 10, 2022",
+        deadline: "January, 10, 2022",
         authorLink: "#",
         nftLink: "#",
         bidLink: "/ItemDetail",
@@ -186,67 +187,67 @@ export default class Responsive extends Component {
         likes: 50
     }]
 
-  constructor(props) {
-    super(props);
-    this.state = {
-        nfts:[],
-        height: 0,
-        total: 0,
-        isCalled : false
-    
-    };
-    this.onImgLoad = this.onImgLoad.bind(this);
-    this.loadItems = this.loadItems.bind(this);
-    this.loadItems(this);
+    constructor(props) {
+        super(props);
+        this.state = {
+            nfts: [],
+            height: 0,
+            total: 0,
+            isCalled: false
+
+        };
+        this.onImgLoad = this.onImgLoad.bind(this);
+        this.loadItems = this.loadItems.bind(this);
+        this.loadItems(this);
     }
 
     loadItems = (thiscontext) => {
         let NFTs = {};
         let options = { address: globalConstant.contractAddress, chain: "mumbai" };
-        if(!window._moralis){
-          const web3 = Moralis.enable().then(function (d){
-            window._moralis = d;
-            window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
-           
-      
-            NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
-              
-            
-                console.log(data);
-              thiscontext.setState({
-                total: data.total,
-                nfts : data.result
-              })
-              
-              });
-          });
-        }
-        else{
-          NFTs = Moralis.Web3API.account.getNFTs(options).then(function(data){
-            
-            console.log(data);
-            thiscontext.setState({
-                total: data.total,
-                nfts : data.result
-              })
-              
-          });
-        }
-      }
+        showLoader();
+        if (!window._moralis) {
+            const web3 = Moralis.enable().then(function (d) {
+                window._moralis = d;
+                window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
 
-    voteForToken = async function(tokenID){
+
+                NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
+
+
+                    console.log(data);
+                    thiscontext.setState({
+                        total: data.total,
+                        nfts: data.result
+                    })
+                    hideLoader();
+                });
+            });
+        }
+        else {
+            NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
+
+                console.log(data);
+                thiscontext.setState({
+                    total: data.total,
+                    nfts: data.result
+                })
+                hideLoader();
+            });
+        }
+    }
+
+    voteForToken = async function (tokenID) {
         const options = {
             contractAddress: globalConstant.contractAddress,
             functionName: "vote",
             abi: AuctionHouseAbi,
             params: {
-                tokenId : tokenID
+                tokenId: tokenID
             },
-          };
-          
-          let receipt = await Moralis.executeFunction(options);
-          if(receipt.status)
-          {
+        };
+
+        let receipt = await Moralis.executeFunction(options);
+        if (receipt.status) {
             toast.success("Voting is successful", {
                 position: "top-right",
                 autoClose: 5000,
@@ -255,100 +256,95 @@ export default class Responsive extends Component {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-              });
-          }
-          debugger;
+            });
+        }
+        debugger;
     }
 
-    getMetadataFromString = function(metadataString, fieldName){
+    getMetadataFromString = function (metadataString, fieldName) {
         let jsonObject = JSON.parse(metadataString);
-        if(jsonObject != null)
-        {
-            if(fieldName == "title")
-            {
+        if (jsonObject != null) {
+            if (fieldName == "title") {
                 return jsonObject.title;
             }
-            else if(fieldName == "image")
-            {
+            else if (fieldName == "image") {
                 return jsonObject.path;
             }
-            else if(fieldName == "owner")
-            {
+            else if (fieldName == "owner") {
                 return jsonObject.owner;
             }
-            else 
-            {
+            else {
                 return jsonObject.timestamp;
             }
         }
 
         return "";
-        
+
     }
 
     loadMore = () => {
         let nftState = this.state.nfts
         let start = nftState.length
-        let end = nftState.length+4
+        let end = nftState.length + 4
         this.setState({
             nfts: [...nftState, ...(this.state.nfts.slice(start, end))]
         });
     }
 
-    onImgLoad({target:img}) {
-       
+    onImgLoad({ target: img }) {
+
         let currentHeight = this.state.height;
-        if(currentHeight < img.offsetHeight) {
+        if (currentHeight < img.offsetHeight) {
             this.setState({
                 height: img.offsetHeight
             })
         }
     }
 
- render() {
-  return (
-    <div className='row'>
-        {this.state.nfts.map( (nft, index) => (
-            <div key={index} className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4">
-                <div className="nft__item m-0">
-                   
-                    <div className="author_list_pp">
-                        {/* <span onClick={()=> window.open(nft.authorLink, "_self")}>                                    
+    render() {
+        return (
+            <div className='row'>
+                {this.state.nfts.map((nft, index) => (
+                    <div key={index} className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4">
+                        <div className="nft__item m-0">
+
+                            <div className="author_list_pp">
+                                {/* <span onClick={()=> window.open(nft.authorLink, "_self")}>                                    
                             <img className="lazy" src={nft.authorImg} alt=""/>
                             <i className="fa fa-check"></i>
                         </span> */}
-                    </div>
-                    <div className="nft__item_wrap" style={{height: `${this.state.height}px`}}>
-                      <Outer>
-                        <span>
-                            <img onLoad={this.onImgLoad}  src={this.getMetadataFromString(nft.metadata, "image")} style={{ height: "190px",  width: "230px"}} className="lazy nft__item_preview" alt=""/>
-                        </span>
-                      </Outer>
-                    </div>
-                    <div className="nft__item_info">
-                        <span onClick={() => { window.location.href = "/token/"+ nft.token_id} }>
-                            <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
-                        </span>
-                        <div className="nft__item_price">
-                            {nft.amount} MATIC<span>{nft.bid}</span>
+                            </div>
+                            <div className="nft__item_wrap" style={{ height: `${this.state.height}px` }}>
+                                <Outer>
+                                    <span>
+                                        <img onLoad={this.onImgLoad} src={this.getMetadataFromString(nft.metadata, "image")} style={{ height: "190px", width: "230px" }} className="lazy nft__item_preview" alt="" />
+                                    </span>
+                                </Outer>
+                            </div>
+                            <div className="nft__item_info">
+                                <span onClick={() => { window.location.href = "/token/" + nft.token_id }}>
+                                    <h4>{this.getMetadataFromString(nft.metadata, "title")}</h4>
+                                </span>
+                                <div className="nft__item_price">
+                                    {nft.amount} MATIC<span>{nft.bid}</span>
+                                </div>
+                                <div className="nft__item_action">
+                                    <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
+                                </div>
+                                <div className="nft__item_like" style={{ color: "#8364E2", fontWeight: 300 }} onClick={() => { window.location.href = "/token/" + nft.token_id }}>
+                                    <i className="fa fa-eye" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >Details</span>
+                                </div>
+                            </div>
                         </div>
-                        <div className="nft__item_action">
-                            <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
-                        </div>
-                        <div className="nft__item_like" style={{color: "#8364E2", fontWeight: 300}} onClick={() => { window.location.href = "/token/"+ nft.token_id} }>
-                            <i className="fa fa-eye" ></i><span style={{color: "#8364E2", fontWeight: 200}} >Details</span>
-                        </div>                            
-                    </div> 
-                </div>
-            </div>  
-        ))}
-        { this.state.nfts.length !== this.dummyData.length &&
-            <div className='col-lg-12'>
-                <div className="spacer-single"></div>
-                <span onClick={() => this.loadMore()} className="btn-main lead m-auto">Load More</span>
+                    </div>
+                ))}
+                {this.state.nfts.length !== this.dummyData.length &&
+                    <div className='col-lg-12'>
+                        <div className="spacer-single"></div>
+                        <span onClick={() => this.loadMore()} className="btn-main lead m-auto">Load More</span>
+                    </div>
+                }
             </div>
-        }
-    </div>              
-    );
-}
+        );
+    }
 }
