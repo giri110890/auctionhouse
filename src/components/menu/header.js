@@ -7,8 +7,9 @@ import { useMoralis } from 'react-moralis';
 import Moralis from 'moralis';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { globalConstant } from "../../constants/global";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
-const contractAddress = '0x8E4e3b0CC00Ca0855EE88aCF0aDB80F968FC531d';
+const contractAddress = globalConstant.contractAddress;
 
 setDefaultBreakpoints([
   { xs: 0 },

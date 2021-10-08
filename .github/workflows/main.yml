@@ -15,7 +15,8 @@ jobs:
           node-version: 16.x
 
       - run: npm install
-      - run: CI=false npm --max-old-space-size=8192 run build --prod
+      - run: export NODE_OPTIONS=--max_old_space_size=8192
+      - run: CI=false npm run build --prod
 
       - name: "Deploy to Skynet"
         uses: SkynetLabs/deploy-to-skynet-action@v2
