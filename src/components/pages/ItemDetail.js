@@ -56,13 +56,15 @@ export default class Colection extends Component{
 
     getTokenInfo = async function()
     {
+
         let accountAddress = globalConstant.contractAddress;
         let options = { address:accountAddress , chain: "mumbai" };
         debugger;
         let NFTs = await Moralis.Web3API.account.getNFTs(options);
         if(NFTs != null)
         {
-            NFTs.forEach(element => {
+            let tempArray = NFTs.result;
+            tempArray.forEach(element => {
                 if(element.token_id == this.state.tokenID)
                 {
                     this.state.tokenInfo = element;
@@ -136,7 +138,7 @@ render(){
           <div className='row mt-md-5 pt-md-4'>
         
           <div className="col-md-6 text-center">
-                                  <img src={this.getMetadataFromStringgetMetadataFromString(this.state.tokenInfo?.metadata, "image")} className="img-fluid img-rounded mb-sm-30" alt=""/>
+                                  <img src={this.getMetadataFromString(this.state.tokenInfo?.metadata, "image")} className="img-fluid img-rounded mb-sm-30" alt=""/>
                               </div>
                               <div className="col-md-6">
                                   <div className="item_info">
