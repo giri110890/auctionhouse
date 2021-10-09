@@ -4,6 +4,7 @@ import Clock from "./Clock";
 import { useMoralis } from 'react-moralis';
 import Moralis from 'moralis';
 import { globalConstant } from "../../constants/global";
+import { hideLoader, showLoader } from "../../services/loaderservice";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 const Outer = styled.div`
@@ -202,6 +203,7 @@ export default class Responsive extends Component {
         let NFTs = {};
         let options = { address: globalConstant.contractAddress, chain: "mumbai" };
         let walletAddress = localStorage.getItem("walletAddress").toLowerCase();
+        showLoader();
         if(!window._moralis){
           const web3 = Moralis.enable().then(function (d){
             window._moralis = d;
@@ -231,6 +233,8 @@ export default class Responsive extends Component {
                         total: data.total,
                         nfts : tempArray
                       })
+
+                      hideLoader();
                 }
               
               
@@ -259,6 +263,8 @@ export default class Responsive extends Component {
                     total: data.total,
                     nfts : tempArray
                   })
+
+                  hideLoader();
             }
               
           });

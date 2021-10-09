@@ -68,7 +68,7 @@ const app= () => (
         <Explore path="/upcomingauctions" />
         <Colection path="/colection" />
       
-        <ItemDetail path="/token/:tokenId" />
+        {/* <ItemDetail path="/token/:tokenId" /> */}
         <LiveAuction path ="/liveAuction" />
         <Author path="/Author" />
         <Wallet path="/wallet" />
