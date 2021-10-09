@@ -5,6 +5,7 @@ import { useMoralis } from 'react-moralis';
 import Moralis from 'moralis';
 import { ToastContainer, toast } from 'react-toastify';
 import { globalConstant } from "../../constants/global";
+import { hideLoader, showLoader } from "../../services/loaderservice";
 const { AuctionHouseAbi } = require('../../services/AuctionHouseAbi');
 
 
@@ -243,6 +244,8 @@ export default class Responsive extends Component {
         let NFTs = {};
         let walletAddress = localStorage.getItem("walletAddress");
         let options = { address: walletAddress, chain: "mumbai" };
+
+        showLoader();
  
         if(!window._moralis){
           const web3 = Moralis.enable().then(function (d){
@@ -261,7 +264,7 @@ export default class Responsive extends Component {
                         nfts : data.result
                       })
                 
-              
+                      hideLoader();
               
               });
           });
@@ -274,6 +277,8 @@ export default class Responsive extends Component {
                 total: data.total,
                 nfts : data.result
               })
+
+              hideLoader();
               
           });
         }
@@ -357,7 +362,7 @@ export default class Responsive extends Component {
                         Supply:  {nft.amount} <span>{nft.bid}</span>
                         </div>
                         <div className="nft__item_action">
-                            <span>{this.getMetadataFromString(nft.metadata, "timestamp")}</span>
+                            <span onClick={() => this.moveToAuction(nft.token_id)}>Move To Auction</span>
                         </div>                          
                     </div> 
                 </div>

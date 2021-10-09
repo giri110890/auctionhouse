@@ -205,13 +205,18 @@ export default class Responsive extends Component {
         let NFTs = {};
         let options = { address: globalConstant.contractAddress, chain: "mumbai" };
         showLoader();
-        const me = this;
+     
+        // const web3 = new Moralis.Web3();
+        // let acutionContrct = new web3.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
+
+        // const data =  acutionContrct.methods.getTokenDetails(5).encodeABI();
+        // console.log(data);
         if (!window._moralis) {
             const web3 = Moralis.enable().then(function (d) {
                 window._moralis = d;
                 window.auctionContract = new window._moralis.eth.Contract(AuctionHouseAbi, globalConstant.contractAddress);
 
-
+                debugger;
                 NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
 
                     debugger;
@@ -234,6 +239,7 @@ export default class Responsive extends Component {
             });
         }
         else {
+            debugger;
             NFTs = Moralis.Web3API.account.getNFTs(options).then(function (data) {
 
                 console.log(data);
@@ -363,7 +369,7 @@ export default class Responsive extends Component {
                                     <span onClick={() => this.voteForToken(nft.token_id)}>Vote</span>
                                 </div>
                                 <div className="nft__item_like" style={{ color: "#8364E2", fontWeight: 300 }}>
-                                    <i className="fa fa-eye" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >{nft._votes}</span>
+                                    <i className="fa fa-heart" ></i><span style={{ color: "#8364E2", fontWeight: 200 }} >{nft._votes}</span>
                                 </div>
                             </div>
                         </div>
